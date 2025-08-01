@@ -1,11 +1,19 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <RouterView v-slot="{ Component }" :key="`${$route.path}`">
+    <template v-if="Component">
+      <Suspense>
+        <template #default>
+          <ErrorBoundary>
+            <!-- main content -->
+            <component :is="Component" />
+          </ErrorBoundary>
+        </template>
+        <template #fallback>
+          Loading...
+        </template>
+      </Suspense>
+    </template>
+  </RouterView>
 </template>
-
-<style scoped></style>

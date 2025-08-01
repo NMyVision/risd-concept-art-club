@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+.tick {
+  @apply absolute left-1 top-0 border-y-6 border-r-6 border-y-transparent size-0 border-r-zinc-300 rotate-45;
+}
+
+@custom-variant hover {
+  &:hover {
+    @slot;
+  }
+}
