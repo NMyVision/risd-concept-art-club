@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter()
+
+router.push('/landing')
+
+</script>
 
 <template>
   <h1>You did it!</h1>

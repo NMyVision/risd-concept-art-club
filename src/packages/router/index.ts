@@ -13,10 +13,10 @@ router.beforeEach((to: any, from: any, next: any) => {
   if (import.meta.isDevelopment) {
     console.groupCollapsed('router.beforeEach')
     console.table({
-      to: toValue(to.fullPath),
-      toName: toValue(to.name),
-      from: toValue(from.fullPath),
-      fromName: toValue(from.name),
+    to: toValue(to.fullPath),
+    toName: toValue(to.name),
+    from: toValue(from.fullPath),
+    fromName: toValue(from.name),
       public: to.meta.public
     })
     console.groupEnd()

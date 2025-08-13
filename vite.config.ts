@@ -8,6 +8,7 @@ import autoImport from "unplugin-auto-import/vite";
 import vueRouter from "unplugin-vue-router/vite";
 import routesConfiguration from "./src/packages/router/configuration";
 import tailwindcss from "@tailwindcss/vite";
+import pocketbasePlugin from "./src/packages/pocketbase/plugin";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -29,6 +30,10 @@ export default defineConfig({
       ],
       dts: true,
     }),
+    pocketbasePlugin({
+      url: import.meta.POCKETBASE_URL,
+      token: import.meta.POCKETBASE_TOKEN,
+    })
   ],
   resolve: {
     alias: {
