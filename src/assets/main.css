@@ -1,4 +1,11 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/forms";
+
+
+@theme static {
+  --font-sans: InterVariable, sans-serif;
+  --font-sans--font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
 
 .tick {
   @apply absolute left-1 top-0 border-y-6 border-r-6 border-y-transparent size-0 border-r-zinc-300 rotate-45;

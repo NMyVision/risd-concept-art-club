@@ -5,5 +5,10 @@ export default {
       path: '',
       exclude: ['**/partials/**'],
     },
+    {
+      name: 'NotFound',
+      src: 'src/pages/notfound',
+      path: '[...path]'
+    }
   ],
 }

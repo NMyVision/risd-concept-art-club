@@ -9,10 +9,10 @@ import { pb } from './packages/pocketbase';
     <template v-if="Component">
       <Suspense>
         <template #default>
-          <ErrorBoundary>
+
             <!-- main content -->
             <component :is="Component" />
-          </ErrorBoundary>
+
         </template>
         <template #fallback>
           Loading...

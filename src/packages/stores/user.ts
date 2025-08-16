@@ -10,9 +10,9 @@ import type { RecordModel } from 'pocketbase'
  */
 export const useUserStore = defineStore('user', () => {
   const token = ref<string>(pb.authStore.token || '')
-  const model = ref<RecordModel | null>(pb.authStore.model)
+  const model = ref<RecordModel | null>(pb.authStore.record)
 
-  const isAuthenticated = computed(() => pb.authStore.isValid)
+  const isAuthenticated = computed(() => !!token.value)
   const user = computed(() => model.value)
   const userId = computed(() => model.value?.id ?? null)
 
