@@ -2,10 +2,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { loadEnv } from 'vite'
 
-import { type PluginOptions } from './types'
 import { generateDTS, generateCode } from './codegen'
 
-export default function <S extends readonly string[], C extends readonly string[]>(options: PluginOptions<S, C>) {
+export default function <S extends readonly string[], C extends readonly string[]>(options: any) {
   const virtualModuleId = 'virtual:environminty'
   const resolvedVirtualModuleId = '\0' + virtualModuleId
 
