@@ -35,7 +35,7 @@ onMounted(async () => {
 <template>
 
   <template v-if="isSingle">
-    <div class="grid grid-cols-4 gap-8 mt-20" v-if="items">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mt-20" v-if="items">
       <template v-for="item in items">
         <div class="grayscale-100 hover:grayscale-0">
 

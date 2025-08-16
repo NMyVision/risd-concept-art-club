@@ -19,7 +19,7 @@ const imageUrl = computed(() => {
 <template>
 
   <Component :is="as"
-    class="group relative block h-48 md:h-56 lg:h-64 w-full overflow-hidden rounded-2xl transition-transform duration-300  focus:outline-none focus:ring-4 focus:ring-blue-500/50"
+    class="group relative block h-48 md:h-56 lg:h-64 w-full overflow-hidden sm:rounded-2xl transition-transform duration-300  focus:outline-none focus:ring-4 focus:ring-blue-500/50"
     :class="{ 'hover:scale-[1.01]': false }">
 
     <!-- Background Image -->

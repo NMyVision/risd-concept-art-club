@@ -39,9 +39,9 @@ const people = [
 
     <div class="h-[48rem] flex justify-center items-center mt-20">
       <div class="block text-balance text-center h-96 w-full max-w-7xl">
-        <h1 class="text-white font-semibold text-8xl/30">
-          <span class="whitespace-nowrap font-extralight block">Welcome to</span>
-          <span class="bg-linear-to-b from-blue-500 to-blue-900 bg-clip-text  font-extrabold text-transparent">Concept
+        <h1 class="text-white font-semibold text-6xl sm:text-8xl/30">
+          <span class="font-extralight block">Welcome to</span>
+          <span class="pt-8 md:pt-4 block bg-linear-to-b from-blue-500 to-blue-900 bg-clip-text  font-extrabold text-transparent">Concept
             Art Club</span>
         </h1>
       </div>
@@ -54,7 +54,7 @@ const people = [
 
         <h3 class="text-white text-center pb-10 text-4xl sm:text-5xl font-semibold text-shadow-md/20 ">Club Mission</h3>
 
-        <p class="relative text-blue-100 text-center text-base/loose text-shadow-md/20 text-balance max-w-5xl mx-auto">The goal of RISD's Concept Art Club
+        <p class="relative p-4 text-blue-100 text-center text-base/loose text-shadow-md/20 text-balance max-w-5xl mx-auto">The goal of RISD's Concept Art Club
           is to help
           students who are interested in perusing the per-production aspect of the animation or gaming industry. This
           includes visual development, character design, background design, prop design, story-boarding, color

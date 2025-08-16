@@ -12,12 +12,12 @@ const resource: Pick<Resource, 'cover' | 'title' | 'classes' | 'attribution'> = 
 </script>
 <template>
   <Layout>
-    <div class="container mx-auto mt-20">
+    <div class="container mx-auto  mt-1 sm:mt-20">
       <ResourceCard :resource position="center" class="*:[[data-content]]:justify-center" hover />
     </div>
 
 
-    <div class="relative isolate px-6 py-24 sm:py-32 mt-10 lg:px-8">
+    <div class="relative isolate px-6 pt-12 sm:py-32 sm:mt-10 lg:px-8">
       <svg v-if="false"
         class="absolute inset-0 -z-10 size-full mask-[radial-gradient(100%_100%_at_top_right,white,transparent)] stroke-white/10"
         aria-hidden="true">
@@ -35,7 +35,7 @@ const resource: Pick<Resource, 'cover' | 'title' | 'classes' | 'attribution'> = 
       </svg>
       <div class="mx-auto max-w-xl lg:max-w-4xl">
 
-        <div class="mt-16 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
+        <div class="mt-8 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
           <div class="lg:mt-6 lg:w-80 lg:flex-none">
             <h2 class="text-4xl font-semibold tracking-tight text-pretty text-white sm:text-5xl">Let’s talk</h2>
             <figure class="mt-10">

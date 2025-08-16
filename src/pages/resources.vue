@@ -9,7 +9,7 @@ const resources = computed(() => store.state ?? {})
 </script>
 <template>
   <Layout>
-    <div class="mx-auto container my-12 sm:my-24">
+    <div class="mx-auto container my-1 sm:my-24">
 
 
 

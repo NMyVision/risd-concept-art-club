@@ -16,10 +16,10 @@ const resource: Pick<Resource, 'id' | 'cover' | 'title' | 'classes' | "attributi
 </script>
 <template>
   <Layout>
-     <div class="container mx-auto mt-20">
+     <div class="container mx-auto mt-1 sm:mt-20">
       <ResourceCard :resource position="center" class="*:[[data-content]]:justify-center" hover />
     </div>
-    <div class="mx-auto w-full max-w-4xl pt-20 pb-20">
+    <div class="mx-auto w-full max-w-4xl pt-20 pb-20  px-4 sm:px-0">
      <div class="relative grid grid-cols-1 gap-x-14 md:grid-cols-2">
       <button type="button" @click="prev" class="absolute -top-1 -left-1.5 flex items-center justify-center p-1.5 text-gray-400 hover:text-white">
         <span class="sr-only">Previous month</span>

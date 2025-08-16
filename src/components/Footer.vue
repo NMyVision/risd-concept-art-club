@@ -76,7 +76,7 @@ const navigation = [
 </script>
 
 <template>
-  <footer class="bg-zinc-900">
+  <footer class="bg-zinc-900 mt-12">
 
     <div class="container mx-auto px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
       <div class="flex justify-center gap-x-6 md:order-2">
