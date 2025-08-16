@@ -8,8 +8,8 @@ definePage({
 
 const store = useUserStore();
 const router = useRouter();
-const email = ref('vgambill@risd.edu');
-const password = ref('pxk*gdf3MDY9wkr3qju');
+const email = ref('');
+const password = ref('');
 
 const onSubmit = async () => {
   // pb.collection('users').authWithPassword(email.value, password.value)
