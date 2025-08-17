@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { pb } from '@/packages/pocketbase'
+import { pb, type BookModel } from '@/packages/pocketbase'
 import BookCard from '@/components/BookCard.vue'
-import type { Book } from '@/types'
+//import type { Book } from '@/types'
 
 const items = ref()
 const categories = ref([])
@@ -14,20 +14,21 @@ onMounted(async () => {
 })
 
 
-const activeTab = ref('saved')
+const activeTab = ref('all')
 const viewMode = ref('list')
 
 const tabs = [
-  { id: 'saved', name: 'Saved Books' },
-  { id: 'concept', name: 'Concept Art Books' },
-  { id: 'youtubers', name: 'Youtubers' },
-  { id: 'links', name: 'Helpful Links' }
+  { id: 'all', name: 'All' },
+  { id: 'saved', name: 'Saved' },
+  // { id: 'concept', name: 'Concept Art Books' },
+  // { id: 'youtubers', name: 'Youtubers' },
+  // { id: 'links', name: 'Helpful Links' }
 ]
 
 onMounted(() => { })
 
 
-const toggleBookmark = (bookId: Book['id']) => {
+const toggleBookmark = (bookId: BookModel['id']) => {
   console.log('Toggle bookmark for:', bookId)
   // Handle bookmark logic
 }
@@ -36,7 +37,7 @@ const toggleBookmark = (bookId: Book['id']) => {
 <template>
 
   <div class="flex flex-col gap-4">
- 
+
 
     <div class="min-h-screen   text-white">
       <!-- Header Navigation -->
@@ -80,10 +81,10 @@ const toggleBookmark = (bookId: Book['id']) => {
 
       <!-- Content -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="space-y-4" v-if="items">
+        <div class="flex flex-col gap-6" v-if="items">
           <template v-for="item in items" :key="item.id">
 
-            <BookCard :book="item" @bookmark="toggleBookmark"/>
+            <BookCard :book="item" @bookmark="toggleBookmark" viewMode :bookmarked="true" />
           </template>
 
         </div>
@@ -91,5 +92,7 @@ const toggleBookmark = (bookId: Book['id']) => {
     </div>
 
   </div>
+
+
 
 </template>

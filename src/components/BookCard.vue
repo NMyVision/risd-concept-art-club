@@ -1,7 +1,6 @@
-
 <script setup lang="ts">
 import { pb } from '@/packages/pocketbase'
-import type {Book} from '@/types'
+import type { Book } from '@/types'
 
 type Props = { book: Book, bookmarked: boolean }
 const { book, bookmarked } = defineProps<Props>()
@@ -23,30 +22,99 @@ const formatAuthors = (author) => {
 }
 
 // Helper function to get image URL (adjust based on your PocketBase setup)
-const getImageUrl = (item:Book) => {
+const getImageUrl = (item: Book) => {
 
   return pb.files.getURL(item, item.cover)
 }
 </script>
 
 <template>
-  <div class="group bg-gray-900 rounded-2xl p-6 transition-all duration-300 hover:bg-gray-800 hover:shadow-lg hover:shadow-black/25">
+
+
+  <div
+    class="md:hidden group bg-gray-900 rounded-2xl overflow-clip transition-all duration-300 hover:bg-gray-800 hover:shadow-lg hover:shadow-black/25">
+
+    <div class="grid grid-rows-[3fr_8rem_auto]">
+
+      <div class="relative">
+        <img v-if="book.cover" :src="getImageUrl(book)" :alt="book.title"
+          class="w-full h-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div class="absolute from-gray-900 from-15% bg-gradient-to-t h-1/2 inset-x-0 z-10 -bottom-1"></div>
+      </div>
+
+      <div class="px-6">
+        <div class="font-medium text-xl">
+          {{ book.title }}
+        </div>
+        <!-- Publication Year & Actions -->
+        <div class="flex-shrink-0 flex items-start justify-between h-full">
+          <div class="text-right space-y-4">
+            <!-- Publication Year -->
+            <div v-if="book.pubYear" class="text-sm text-gray-400">
+              Published {{ book.pubYear }}
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+        <div class="grid grid-cols-[1fr_auto] px-4 pb-2">
+
+          <!-- Tags -->
+          <div class="pl-2">
+            <!-- Studio/Publisher Tag -->
+            <span v-if="book.studio?.name"
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200">
+              {{ book.studio.name }}
+            </span>
+
+            <!-- Field Tags -->
+            <span v-for="field in book.field" :key="field"
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200">
+              {{ field }}
+            </span>
+
+            <!-- Publisher Tag -->
+            <span v-if="book.publisher?.name"
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200">
+              {{ book.publisher.name }}
+            </span>
+          </div>
+
+
+          <!-- Bookmark Button -->
+          <button @click="$emit('bookmark', book.id)"
+            class="group/bookmark p-2 rounded-lg transition-colors duration-200 hover:bg-gray-700"
+            :class="isBookmarked ? 'text-yellow-400' : 'text-gray-400 hover:text-white'">
+            <svg class="size-5 transition-transform duration-200 group-hover/bookmark:scale-110"
+              :fill="isBookmarked ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+            </svg>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <div
+    class="hidden md:block group bg-gray-900 rounded-2xl p-6 transition-all duration-300 hover:bg-gray-800 hover:shadow-lg hover:shadow-black/25">
     <div class="flex items-center space-x-6">
       <!-- Book Cover -->
       <div class="flex-shrink-0">
         <div class="w-24 h-32 rounded-lg overflow-hidden bg-gray-700">
-          <img
-            v-if="book.cover"
-            :src="getImageUrl(book)"
-            :alt="book.title"
-            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-          <div
-            v-else
-            class="w-full h-full flex items-center justify-center text-gray-500"
-          >
+          <img v-if="book.cover" :src="getImageUrl(book)" :alt="book.title"
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+          <div v-else class="w-full h-full flex items-center justify-center text-gray-500">
             <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M6 2h12a2 2 0 012 2v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zm0 2v16h12V4H6zm2 2h8v2H8V6zm0 4h8v2H8v-2zm0 4h5v2H8v-2z"/>
+              <path
+                d="M6 2h12a2 2 0 012 2v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2zm0 2v16h12V4H6zm2 2h8v2H8V6zm0 4h8v2H8v-2zm0 4h5v2H8v-2z" />
             </svg>
           </div>
         </div>
@@ -56,7 +124,8 @@ const getImageUrl = (item:Book) => {
       <div class="flex-1 min-w-0">
         <div class="space-y-3">
           <!-- Title -->
-          <h3 class="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors duration-200 truncate">
+          <h3
+            class="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors duration-200 truncate">
             {{ book.title }}
           </h3>
 
@@ -68,27 +137,20 @@ const getImageUrl = (item:Book) => {
           <!-- Tags -->
           <div class="flex flex-wrap gap-2">
             <!-- Studio/Publisher Tag -->
-            <span
-              v-if="book.studio?.name"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200"
-            >
+            <span v-if="book.studio?.name"
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200">
               {{ book.studio.name }}
             </span>
 
             <!-- Field Tags -->
-            <span
-              v-for="field in book.field"
-              :key="field"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200"
-            >
+            <span v-for="field in book.field" :key="field"
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200">
               {{ field }}
             </span>
 
             <!-- Publisher Tag -->
-            <span
-              v-if="book.publisher?.name"
-              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200"
-            >
+            <span v-if="book.publisher?.name"
+              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-gray-300 hover:bg-white/20 transition-colors duration-200">
               {{ book.publisher.name }}
             </span>
           </div>
@@ -104,23 +166,13 @@ const getImageUrl = (item:Book) => {
           </div>
 
           <!-- Bookmark Button -->
-          <button
-            @click="$emit('bookmark', book.id)"
+          <button @click="$emit('bookmark', book.id)"
             class="group/bookmark p-2 rounded-lg transition-colors duration-200 hover:bg-gray-700"
-            :class="isBookmarked ? 'text-yellow-400' : 'text-gray-400 hover:text-white'"
-          >
-            <svg
-              class="w-5 h-5 transition-transform duration-200 group-hover/bookmark:scale-110"
-              :fill="isBookmarked ? 'currentColor' : 'none'"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-              />
+            :class="isBookmarked ? 'text-yellow-400' : 'text-gray-400 hover:text-white'">
+            <svg class="w-5 h-5 transition-transform duration-200 group-hover/bookmark:scale-110"
+              :fill="isBookmarked ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
             </svg>
           </button>
         </div>
@@ -128,12 +180,8 @@ const getImageUrl = (item:Book) => {
     </div>
 
     <!-- Optional: Click to open book link -->
-    <a
-      v-if="book.Book_Link"
-      :href="book.Book_Link"
-      target="_blank"
+    <a v-if="book.Book_Link" :href="book.Book_Link" target="_blank"
       class="absolute inset-0 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/50"
-      :aria-label="`Open ${book.title}`"
-    />
+      :aria-label="`Open ${book.title}`" />
   </div>
 </template>

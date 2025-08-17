@@ -33,3 +33,5 @@ coverage
 pocketbase/pocketbase.exe
 pocketbase/pocketbase
 pocketbase/pb_data/
+
+auto-imports.d.ts

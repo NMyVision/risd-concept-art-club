@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
-
+export type * from '../../../pocketbase-collections'
 // Get PocketBase URL from environment variables
 const PB_URL = import.meta.env.VITE_POCKETBASE_URL || 'http://127.0.0.1:8090';
 

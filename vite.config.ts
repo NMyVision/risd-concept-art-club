@@ -30,10 +30,7 @@ export default defineConfig({
       ],
       dts: true,
     }),
-    pocketbasePlugin({
-      url: import.meta.POCKETBASE_URL,
-      token: import.meta.POCKETBASE_TOKEN,
-    })
+    pocketbasePlugin()
   ],
   resolve: {
     alias: {
