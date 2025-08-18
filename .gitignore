@@ -35,3 +35,4 @@ pocketbase/pocketbase
 pocketbase/pb_data/
 
 auto-imports.d.ts
+pocketbase-collections.d.ts

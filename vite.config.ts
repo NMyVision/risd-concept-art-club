@@ -30,7 +30,9 @@ export default defineConfig({
       ],
       dts: true,
     }),
-    pocketbasePlugin()
+    pocketbasePlugin({
+      nameSuffix:''
+    })
   ],
   resolve: {
     alias: {

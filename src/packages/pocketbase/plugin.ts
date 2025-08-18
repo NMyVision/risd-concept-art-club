@@ -14,14 +14,16 @@ const getCollectionData = async (options: PluginOptions, env: Record<string, any
   return await pb.collections.getFullList()
 }
 const getOptions = (options?: Partial<PluginOptions>) => {
+  console.log('getOptions BEFORE', options)
   if (!options) options = {} as Partial<PluginOptions>
   if (options.useBaseModel === undefined) options.useBaseModel = true;
   if (!options.fieldFilter) options.fieldFilter =  (f: CollectionField, o: PluginOptions) => !f.hidden || ( o.useBaseModel &&(f.name === "id" || f.name === "created" || f.name === "updated")) ;
   if (!options.collectionFilter) options.collectionFilter = c => !c.name.startsWith("_");
-  if (!options.nameSuffix) options.nameSuffix = "Model";
+  if (options.nameSuffix === undefined) options.nameSuffix = "Model";
   if (options.getCollectionData === undefined) options.getCollectionData = getCollectionData;
   if (!options.collectionNameResolver) options.collectionNameResolver = (c) => singularize(sentenceCase(c.name));
   if (!options.fieldNameResolver) options.fieldNameResolver = (f) => f.name
+  console.log('getOptions END', options)
   return options as PluginOptions;
 };
 

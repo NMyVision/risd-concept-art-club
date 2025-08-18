@@ -6,7 +6,7 @@ export type Id = string;
 import type { BaseModel } from "Pocketbase";
 
 // users
-export interface UserModel extends BaseModel {
+export interface User extends BaseModel {
   id: string;
   email: string;
   emailVisibility?: boolean;
@@ -19,7 +19,7 @@ export interface UserModel extends BaseModel {
 }
 
 // links
-export interface LinkModel extends BaseModel {
+export interface Link extends BaseModel {
   id: string;
   label?: string;
   url?: string;
@@ -30,7 +30,7 @@ export interface LinkModel extends BaseModel {
 }
 
 // books
-export interface BookModel extends BaseModel {
+export interface Book extends BaseModel {
   id: string;
   title: string;
   field?: string;
@@ -46,7 +46,7 @@ export interface BookModel extends BaseModel {
 }
 
 // studios
-export interface StudioModel extends BaseModel {
+export interface Studio extends BaseModel {
   id: string;
   name?: string;
   field?: string;
@@ -58,7 +58,7 @@ export interface StudioModel extends BaseModel {
 }
 
 // publishers
-export interface PublisherModel extends BaseModel {
+export interface Publisher extends BaseModel {
   id: string;
   name?: string;
   created?: string;
@@ -66,7 +66,7 @@ export interface PublisherModel extends BaseModel {
 }
 
 // resources
-export interface ResourceModel extends BaseModel {
+export interface Resource extends BaseModel {
   id: string;
   title?: string;
   subtitle?: string;
@@ -81,7 +81,7 @@ export interface ResourceModel extends BaseModel {
 }
 
 // link_categories
-export interface LinkCategoryModel extends BaseModel {
+export interface LinkCategory extends BaseModel {
   id: string;
   label?: string;
   cover?: string;
