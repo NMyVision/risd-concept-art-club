@@ -60,12 +60,17 @@ export default function (options?: Partial<PluginOptions>) {
       viteConfig = resolvedConfig
     },
     async buildStart() {
-      const opts = getOptions(options);
-      const env = loadEnv(viteConfig.mode, process.cwd(), '')
-      const collections:CollectionModel[] = await opts.getCollectionData(opts, env)
-      const content = generateDTS(opts, collections)
+      try {
 
-      writeToFile(`./pocketbase-collections.d.ts`, content);
+        const opts = getOptions(options);
+        const env = loadEnv(viteConfig.mode, process.cwd(), '')
+        const collections:CollectionModel[] = await opts.getCollectionData(opts, env)
+        const content = generateDTS(opts, collections)
+
+        writeToFile(`./pocketbase-collections.d.ts`, content);
+      } catch (err) {
+        console.error('vite-plugin-pocketbase: failed to fetch collections', err)
+      }
 
     },
     // resolveId(id: unknown) {
