@@ -65,7 +65,7 @@ const resource: Pick<Resource, 'cover' | 'title' | 'classes' | 'attribution'> = 
               <div>
                 <label for="email" class="block text-sm/6 font-semibold text-white">Email</label>
                 <div class="mt-2.5">
-                  <input type="url" name="email" id="email" class="w-full bg-zinc-900 border-transparent"
+                  <input type="email" name="email" id="email" class="w-full bg-zinc-900 border-transparent"
                     autocomplete="email" />
                 </div>
               </div>
