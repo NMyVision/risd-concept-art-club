@@ -1,4 +1,4 @@
-import { pb } from "@/packages/pocketbase";
+import { pb, type Member } from "@/packages/pocketbase";
 import type { Resource } from "@/types";
 //import type { ListResult } from "pocketbase";
 import { useAsyncState } from "@vueuse/core";
@@ -12,4 +12,17 @@ export const useResourcesStore = defineStore("resources", () => {
   }, null);
 
   return { state, isReady, isLoading };
+});
+
+export const usePocketbaseStore = defineStore("pocketbase", () => {
+  return {
+     getAllMembers() {
+      return useAsyncState(async () => {
+        const records = await pb.collection<Member>("members").getFullList({
+          sort: "-created",
+        });
+        return records;
+      }, null)
+     }
+    }
 });

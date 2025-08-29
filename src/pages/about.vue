@@ -1,7 +1,8 @@
 <script setup lang="ts">
-// type Props = {}
-// const { } = defineProps<Props>()
-// const emits = defineEmits<{ click:[] }>()
+import { pb } from '@/packages/pocketbase'
+import { usePocketbaseStore } from '@/packages/stores/resource';
+const { getAllMembers } = usePocketbaseStore( )
+const { state, isLoading, error } = getAllMembers( )
 
 const people = [
   {
@@ -33,9 +34,17 @@ const people = [
     bio: 'Quis bibendum velit diam tellus sed ut. Faucibus posuere enim, vitae enim eget neque tortor. Metus lectus mattis id id. Tellus ornare etiam id velit ut enim lacinia congue ultrices. Sit morbi vel elit a maecenas mauris elit lectus magna.',
   },
 ]
+
+const getURLImage = <T>(item: T, fn: (T: any) => string) => {
+  if (item && fn(item)) {
+    return pb.files.getURL(item, fn(item))
+  }
+  return 'https://via.placeholder.com/300x200?text=No+Image'
+}
 </script>
 <template>
   <Layout>
+
 
     <div class="h-[48rem] flex justify-center items-center mt-20">
       <div class="block text-balance text-center h-96 w-full max-w-7xl">
@@ -76,13 +85,13 @@ const people = [
         </div>
         <ul role="list"
           class="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-6 gap-y-20 sm:grid-cols-2 lg:max-w-4xl lg:gap-x-8 xl:max-w-none">
-          <li v-for="person in people" :key="person.name" class="flex flex-col gap-6 xl:flex-row">
+          <li v-for="person in state" :key="person.name" class="flex flex-col gap-6 xl:flex-row">
             <img class="aspect-4/5 w-52 flex-none rounded-2xl object-cover outline-1 -outline-offset-1 outline-white/10"
-              :src="person.imageUrl" alt="" />
+              :src="getURLImage(person, (p) => p.avatar)" alt="" />
             <div class="flex-auto">
               <h3 class="text-lg/8 font-semibold tracking-tight text-white">{{ person.name }}</h3>
               <p class="text-base/7 text-gray-400">{{ person.role }}</p>
-              <p class="mt-6 text-base/7 text-gray-400">{{ person.bio }}</p>
+              <p class="mt-6 text-base/7 text-gray-400">{{ person.profile }}</p>
             </div>
           </li>
         </ul>

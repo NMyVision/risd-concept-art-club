@@ -89,3 +89,26 @@ export interface LinkCategory extends BaseModel {
   created?: string;
   updated?: string;
 }
+
+// events
+export interface Event extends BaseModel {
+  id: string;
+  name?: string;
+  datetime?: string;
+  description?: editor;
+  allDay: boolean;
+  created?: string;
+  updated?: string;
+}
+
+// members
+export interface Member extends BaseModel {
+  id: string;
+  member?: Id;
+  name?: string;
+  role?: string;
+  profile?: string;
+  avatar?: string;
+  created?: string;
+  updated?: string;
+}
