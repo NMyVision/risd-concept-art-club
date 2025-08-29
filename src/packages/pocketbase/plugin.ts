@@ -7,7 +7,7 @@ import type { PluginOptions } from './types'
 import { sentenceCase, singularize } from '../codewriter'
 
 
-const getCollectionData = async (options: PluginOptions, env: Record<string, any>) => {
+export const getCollectionData = async (options: PluginOptions, env: Record<string, any>) => {
   const opt = { url: env.VITE_POCKETBASE_URL, token: env.POCKETBASE_TOKEN }
   const pb = new PocketBase(opt.url)
   pb.authStore.save(opt.token, null)
