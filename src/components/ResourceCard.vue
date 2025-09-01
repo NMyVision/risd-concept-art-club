@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { pb } from '@/packages/pocketbase'
-import { type Resource } from '@/types'
-type Props = { count?: number, resource: Resource, as?: 'a' | 'div', size?: 'small' | 'large', position?: 'left' | 'center'}
+
+type Props = { count?: number, resource: Partial<Resource>, as?: 'a' | 'div', size?: 'small' | 'large', position?: 'left' | 'center' }
 const { resource, count, as = 'div', size, position = 'left' } = defineProps<Props>()
 
 const hover = computed(() => as === 'a')
@@ -28,12 +28,12 @@ const imageUrl = computed(() => {
       :style="`background-image: url('${imageUrl}')`"></div>
 
     <!-- Dark Overlay -->
-    <div class="absolute inset-0 bg-black/40 transition-colors duration-300"
+    <div class="absolute inset-0 bg-black/40 transition-colors duration-300 pointer-events-none"
       :class="{ 'group-hover:bg-black/50': hover }">
     </div>
 
     <!-- Content -->
-    <div class="relative h-full grid w-full grid-cols-1 grid-rows-[1fr_auto] p-6 lg:p-8" data-content>
+    <div class="relative h-full grid w-full grid-cols-1 grid-rows-[1fr_auto] p-6 lg:p-8 z-40" data-content>
       <!-- Main Content -->
       <div class="space-y-2 w-full">
         <h3 class="font-bold text-white leading-tight text-shadow-md/20 "
@@ -53,8 +53,15 @@ const imageUrl = computed(() => {
           </span>
         </div>
         <!-- Attribution (if available) -->
-        <span v-if="resource.attribution" class="text-xs text-white/60 text-shadow-sm/30 ">
-          {{ resource.attribution }}
+        <span v-if="resource.attribution" class="text-sm text-white/60 text-shadow-sm/30 ">
+          <template v-if="resource.attributionLink">
+            <a :href="resource.attributionLink" target="_blank" class="group-hover:text-blue-300 group-hover:underline z-30">
+              {{ resource.attribution }}
+            </a>
+          </template>
+          <template v-else>
+            {{ resource.attribution }}
+          </template>
         </span>
       </div>
     </div>

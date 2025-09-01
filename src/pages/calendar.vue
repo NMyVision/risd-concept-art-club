@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { useCalendar } from '@/composables/useCalendar'
-import type { Resource } from '@/types'
 import ResourceCard from '@/components/ResourceCard.vue'
+import type { SiteResource } from '@/types'
 // Optional: pass a custom fetcher to load events from your backend
 const { months, prev, next, goToToday } = useCalendar()
 
-const resource: Pick<Resource, 'id' | 'cover' | 'title' | 'classes' | "attribution"> = {
+const resource:SiteResource = {
 
   "title": "Calendar",
   "cover": "/4d90badcba6065f0c7ffaebf38618b30952b4de8.png",
   "classes": "bg-center",
-  "attribution" :"Cristina Bencina"
+  "attribution" :"Cristina Bencina",
+  "attributionLink": "https://www.artstation.com/cristinabencina",
 }
 </script>
 <template>

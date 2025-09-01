@@ -16,6 +16,7 @@ export const getCollectionData = async (options: PluginOptions, env: Record<stri
 const getOptions = (options?: Partial<PluginOptions>) => {
   console.log('getOptions BEFORE', options)
   if (!options) options = {} as Partial<PluginOptions>
+  if (!options.path) options.path = './pocketbase-collections.d.ts'
   if (options.useBaseModel === undefined) options.useBaseModel = true;
   if (!options.fieldFilter) options.fieldFilter =  (f: CollectionField, o: PluginOptions) => !f.hidden || ( o.useBaseModel &&(f.name === "id" || f.name === "created" || f.name === "updated")) ;
   if (!options.collectionFilter) options.collectionFilter = c => !c.name.startsWith("_");
@@ -67,7 +68,7 @@ export default function (options?: Partial<PluginOptions>) {
         const collections:CollectionModel[] = await opts.getCollectionData(opts, env)
         const content = generateDTS(opts, collections)
 
-        writeToFile(`./pocketbase-collections.d.ts`, content);
+        writeToFile(options?.path ?? `./pocketbase-collections.d.ts`, content);
       } catch (err) {
         console.error('vite-plugin-pocketbase: failed to fetch collections', err)
       }

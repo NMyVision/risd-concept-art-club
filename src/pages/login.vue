@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 
 import { useUserStore } from '@/packages/stores/user';
+import type { SiteResource } from '@/types';
 
 definePage({
   meta:{ access: 'anonymous' }
@@ -36,6 +37,15 @@ if (!e.includes('@')) {
     return false; // Prevent default form submission
   }
 }
+
+const currentImage = computed(()=> {
+  var images: SiteResource[] = [
+    //'/34317e9fa94fa37157db7239a374a93aa0cbd528.png',
+    { cover: '/Untitled_Artwork_1.jpg', attribution: "Ari's Art", attributionLink: 'https://arisartdesign.com/' },
+    { cover: '/Untitled_Artwork_2.jpg', attribution: "Ari's Art", attributionLink: 'https://arisartdesign.com/' }
+  ]
+  return images[Math.floor(Math.random() * images.length)]
+})
 
 </script>
 
@@ -139,7 +149,17 @@ if (!e.includes('@')) {
       </div>
     </div>
     <div class="relative hidden w-0 flex-1 lg:block">
-      <img class="absolute inset-0 size-full object-cover" src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80" alt="" />
+      <div class="absolute right-10 bottom-10 text-white/60 group text-xs hover:text-white z-10 bg-black/5 rounded py-2 px-4">
+        <template v-if="currentImage.attributionLink">
+          <a :href="currentImage.attributionLink" target="_blank" class="group-hover:text-blue-300 group-hover:underline">
+            {{ currentImage.attribution }}
+          </a>
+        </template>
+        <template v-else>
+        {{ currentImage.attribution }}
+        </template>
+      </div>
+      <img class="absolute inset-0 size-full object-cover" :src="currentImage.cover!" alt="" />
     </div>
   </div>
 </template>

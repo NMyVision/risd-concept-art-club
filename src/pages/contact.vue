@@ -1,13 +1,65 @@
 <script setup lang="ts">
 
 import ResourceCard from '@/components/ResourceCard.vue'
-import type { Resource } from '@/types';
-const resource: Pick<Resource, 'cover' | 'title' | 'classes' | 'attribution'> = {
 
-  "title": "Contact",
-  "cover": "/2fedcec88af6f5ad0e62dcf543b971779fb151b5.png",
-  "classes": "bg-center",
-  "attribution": "Ben Lo"
+import { pb } from '@/packages/pocketbase'
+import { ref, computed } from 'vue'
+definePage({
+  meta: { access: 'public' }
+})
+
+const resource: Resource = {
+  id: '',
+  title: 'Contact',
+  cover: '/2fedcec88af6f5ad0e62dcf543b971779fb151b5.png',
+  classes: 'bg-center',
+  attribution: 'Ben Lo',
+  attributionLink: 'https://benlo.artstation.com/',
+}
+// Form state
+const name = ref('')
+const email = ref('')
+const message = ref('')
+const sending = ref(false)
+const success = ref('')
+const error = ref('')
+const honeypot = ref('')
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const isValid = computed(() => {
+  return name.value.trim().length > 1 &&
+    emailRegex.test(email.value.trim()) &&
+    message.value.trim().length > 2
+})
+
+async function handleSubmit() {
+  success.value = ''
+  error.value = ''
+  if (!isValid.value) {
+    error.value = 'Please fill out all fields correctly.'
+    return
+  }
+  sending.value = true
+  try {
+    if (honeypot.value) {
+      console.error('Spam detected.')
+    } else {
+      await pb.collection('submissions').create({
+        name: name.value.trim(),
+        email: email.value.trim(),
+        message: message.value.trim()
+      })
+    }
+    success.value = 'Message sent! We\'ll be in touch soon.'
+    name.value = ''
+    email.value = ''
+    message.value = ''
+  } catch (e: any) {
+    console.error(e)
+    error.value = e?.message || 'Failed to send message.'
+  } finally {
+    sending.value = false
+  }
 }
 </script>
 <template>
@@ -40,24 +92,16 @@ const resource: Pick<Resource, 'cover' | 'title' | 'classes' | 'attribution'> = 
             <h2 class="text-4xl font-semibold tracking-tight text-pretty text-white sm:text-5xl">Let’s talk</h2>
             <figure class="mt-10">
               Have some big idea or need help? Then reach out we'd love to hear about your projects and provide help!
-              <figcaption class="mt-10 flex gap-x-6" v-if="false">
-                <img
-                  src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=96&h=96&q=80"
-                  alt="" class="size-12 flex-none rounded-full bg-gray-800" />
-                <div>
-                  <div class="text-base font-semibold text-white">Brenna Goyette</div>
-                  <div class="text-sm/6 text-gray-400">CEO of Workcation</div>
-                </div>
-              </figcaption>
+
             </figure>
           </div>
-          <form action="#" method="POST" class="lg:flex-auto">
+          <form @submit.prevent="handleSubmit" class="lg:flex-auto">
             <div class="grid grid-cols-1 gap-x-8 gap-y-6">
               <div>
                 <label for="name" class="block text-sm/6 font-semibold text-white">Name</label>
                 <div class="mt-2.5">
-                  <input type="text" name="name" id="name" autocomplete="name"
-                    class="w-full bg-zinc-900 border-transparent" />
+                  <input v-model.trim="name" type="text" name="name" id="name" autocomplete="name"
+                    class="w-full bg-zinc-900 border-transparent" required />
                 </div>
               </div>
 
@@ -65,22 +109,32 @@ const resource: Pick<Resource, 'cover' | 'title' | 'classes' | 'attribution'> = 
               <div>
                 <label for="email" class="block text-sm/6 font-semibold text-white">Email</label>
                 <div class="mt-2.5">
-                  <input type="email" name="email" id="email" class="w-full bg-zinc-900 border-transparent"
-                    autocomplete="email" />
+                  <input v-model.trim="email" type="email" name="email" id="email"
+                    class="w-full bg-zinc-900 border-transparent" autocomplete="email" required />
                 </div>
               </div>
               <div class="">
                 <label for="message" class="block text-sm/6 font-semibold text-white">Message</label>
                 <div class="mt-2.5">
-                  <textarea id="message" name="message" rows="4" class="w-full bg-zinc-900 border-transparent" />
+                  <textarea v-model.trim="message" id="message" name="message" rows="4"
+                    class="w-full bg-zinc-900 border-transparent" required></textarea>
+                </div>
+              </div>
+              <div class="hidden">
+                <div class="mt-2.5">
+                  <input v-model="honeypot" id="honeypot" name="honeypot" />
                 </div>
               </div>
             </div>
             <div class="mt-10">
-              <button type="submit"
-                class="block w-full rounded-md bg-blue-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-blue-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">Let’s
-                talk</button>
+              <button type="submit" :disabled="sending || !isValid"
+                class="block w-full rounded-md bg-blue-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-blue-400 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
+                <span v-if="!sending">Let’s talk</span>
+                <span v-else>Sending...</span>
+              </button>
             </div>
+            <p v-if="error" class="mt-4 text-sm text-red-400">{{ error }}</p>
+            <p v-if="success" class="mt-4 text-sm text-green-400">{{ success }}</p>
             <p class="mt-4 text-sm/6 text-gray-400" v-if="false">By submitting this form, I agree to the <a href="#"
                 class="font-semibold whitespace-nowrap text-blue-400">privacy policy</a>.</p>
           </form>
