@@ -16,6 +16,8 @@ app.use(router)
 app.use(useLayouts)
 app.mount('#app')
 
+/*
 const pb = new PocketBase( import.meta.env.VITE_POCKETBASE_URL );
 pb.authStore.save(import.meta.env.VITE_POCKETBASE_TOKEN);
 await pb.collections.getFullList()
+*/

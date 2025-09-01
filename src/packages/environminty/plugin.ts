@@ -26,9 +26,8 @@ export default function <S extends readonly string[], C extends readonly string[
       // You can read process.env or any other source here
       return {
         define: {
-          'import.meta.env.STAGE': JSON.stringify(env.STAGE),
-          'import.meta.env.CLIENT': JSON.stringify(env.CLIENT),
-          'import.meta.env.VITE_APP_SITE_THEME': JSON.stringify(env.CLIENT)
+          'import.meta.env.POCKETBASE_TOKEN': JSON.stringify(env.POCKETBASE_TOKEN),
+          'import.meta.env.VITE_POCKETBASE_URL': JSON.stringify(env.VITE_POCKETBASE_URL)
         }
       }
     },

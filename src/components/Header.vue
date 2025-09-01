@@ -25,6 +25,7 @@ const mobileMenuOpen = ref(false)
 
 <template>
 
+
   <header class="sticky top-0 z-10">
     <nav class="flex items-center justify-between p-6 md:px-8 bg-zinc-900/50 backdrop-blur-md" aria-label="Global">
       <div class="flex md:flex-1">
@@ -53,7 +54,10 @@ const mobileMenuOpen = ref(false)
       </div>
       <div class="hidden md:flex md:flex-1 md:justify-end">
         <template v-if="store.isAuthenticated">
-          Hi {{ store.user?.firstName }} &nbsp; | &nbsp;
+          <RouterLink to="/me" class="text-sm/6 font-semibold text-white">
+          Hi {{ store.user?.firstName }}
+          </RouterLink>
+          &nbsp; | &nbsp;
           <RouterLink to="/logout" class="text-sm/6 font-semibold text-white">Log out </RouterLink>
         </template>
         <template v-else>
@@ -112,5 +116,6 @@ const mobileMenuOpen = ref(false)
       </DialogPanel>
     </Dialog>
   </header>
+
 
 </template>
