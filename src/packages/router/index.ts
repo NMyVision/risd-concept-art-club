@@ -34,6 +34,7 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalizedLoa
 
   if (! toValue(isAuthenticated) && access !== "public")
   {
+    if (to.meta.access === 'anonymous') return next(); // allow access to anonymous pages
     if (to.name === '/login') return next(); //shortcircuit if already heading to login
 
     return next('/login')

@@ -6,12 +6,12 @@ definePage({
   meta:{ access: 'anonymous' }
 })
 
-const emailUsername = ref('vgambill')
-const password = ref('pxk*gdf3MDY9wkr3qju')
+const emailUsername = ref('')
+const password = ref('')
 const showPassword = ref(false)
 const emailError = ref('')
-const firstName = ref('Vicky')
-const lastName = ref('Gambill')
+const firstName = ref('')
+const lastName = ref('')
 
 
 // Computed property for form validation

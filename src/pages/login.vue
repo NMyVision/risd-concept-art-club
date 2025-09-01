@@ -59,7 +59,7 @@ if (!e.includes('@')) {
           <p class="mt-2 text-sm/6 text-gray-400">
             Not a member?
             {{ ' ' }}
-            <a href="#" class="font-semibold text-blue-400 hover:text-blue-300">Start a 14 day free trial</a>
+            <a href="/register" class="font-semibold text-blue-400 hover:text-blue-300">Sign up</a>
           </p>
         </div>
 
