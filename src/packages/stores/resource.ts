@@ -19,7 +19,8 @@ export const usePocketbaseStore = defineStore("pocketbase", () => {
      getAllMembers() {
       return useAsyncState(async () => {
         const records = await pb.collection<Member>("members").getFullList({
-          sort: "-created",
+          sort: "sequence",
+          filter: 'visible=true'
         });
         return records;
       }, null)
