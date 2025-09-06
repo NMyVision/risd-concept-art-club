@@ -23,7 +23,7 @@ const publisher = book.expand.publisher?.name
       :style="{ 'background-image': `url(${cover})` }"></div>
 
     <div class="@sm:hidden block h-64 bg-white w-full bg-cover">
-      <div class="h-full">
+      <div class="min-h-full">
          <img v-if="cover" class="aspect-square object-cover bg-center " :src="cover" :alt="book.title" />
       </div>
 

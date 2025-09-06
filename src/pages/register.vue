@@ -90,7 +90,7 @@ const handleSubmit = async () => {
 
 <template>
   <Layout>
-    <div class="h-full flex items-center justify-center p-4">
+    <div class="min-h-full flex items-center justify-center p-4">
       <div class="max-w-6xl w-full bg-white rounded-3xl shadow-xl overflow-hidden">
         <div class="flex flex-col lg:flex-row">
           <!-- Left Side - Hero Section -->
@@ -98,7 +98,7 @@ const handleSubmit = async () => {
             class="lg:w-1/2 bg-gradient-to-br from-blue-600 to-blue-900 p-12 flex flex-col justify-center relative overflow-hidden">
             <!-- Background House Silhouette -->
             <div class="absolute inset-0 opacity-20">
-              <svg viewBox="0 0 400 300" class="w-full h-full object-cover">
+              <svg viewBox="0 0 400 300" class="w-full min-h-full object-cover">
                 <polygon points="50,150 200,50 350,150 350,250 50,250" fill="currentColor" opacity="0.3" />
                 <rect x="80" y="180" width="40" height="70" fill="currentColor" opacity="0.4" />
                 <rect x="140" y="160" width="50" height="40" fill="currentColor" opacity="0.4" />

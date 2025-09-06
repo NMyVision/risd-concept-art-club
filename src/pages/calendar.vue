@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
 import { useCalendar } from '@/composables/useCalendar'
 import ResourceCard from '@/components/ResourceCard.vue'
 import type { SiteResource } from '@/types'
+import { useNow } from '@vueuse/core'
 // Optional: pass a custom fetcher to load events from your backend
 const { months, prev, next, goToToday } = useCalendar()
 
@@ -14,6 +15,24 @@ const resource:SiteResource = {
   "attribution" :"Cristina Bencina",
   "attributionLink": "https://www.artstation.com/cristinabencina",
 }
+
+function formatToShortDate(date: Date): string {
+  // Define options for formatting
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'short', // "Wed"
+    month: 'short',   // "Jan"
+    day: 'numeric',   // "12"
+  };
+
+  // Create a formatter for the English-US locale
+  // You can change 'en-US' to another locale if needed,
+  // but for "Wed, Jan 12", 'en-US' is appropriate.
+  const formatter = new Intl.DateTimeFormat('en-US', options);
+
+  return formatter.format(date);
+}
+
+const now = useNow();
 </script>
 <template>
   <Layout>
@@ -59,11 +78,17 @@ const resource:SiteResource = {
         </div>
       </div>
       <ol class="mt-2 divide-y divide-white/10 text-sm/6 text-gray-400">
-        <li class="py-4 sm:flex">
-          <time datetime="2022-01-17" class="w-28 flex-none">Wed, Jan 12</time>
+
+        <li class="py-4 sm:flex" v-if="formatToShortDate(now) == formatToShortDate(new Date(2025,8,6)) ">
+          <time datetime="2022-01-19" class="w-28 flex-none">{{formatToShortDate(new Date(2025,8,6))}} </time>
+          <p class="mt-2 flex-auto font-semibold text-white sm:mt-0">Block Party</p>
+          <p class="flex-none sm:ml-6"><time datetime="2025-09-06T12:00">Noon</time> - <time datetime="2022-01-13T16:30">2:00 PM</time></p>
+        </li>
+        <li class="py-4 sm:flex" v-else>
+          <time datetime="2022-01-17" class="w-28 flex-none">{{ formatToShortDate(now) }}</time>
           <p class="mt-2 flex-auto sm:mt-0">Nothing on today’s schedule</p>
         </li>
-        <li class="py-4 sm:flex">
+        <!-- <li class="py-4 sm:flex">
           <time datetime="2022-01-19" class="w-28 flex-none">Thu, Jan 13</time>
           <p class="mt-2 flex-auto font-semibold text-white sm:mt-0">View house with real estate agent</p>
           <p class="flex-none sm:ml-6"><time datetime="2022-01-13T14:30">2:30 PM</time> - <time datetime="2022-01-13T16:30">4:30 PM</time></p>
@@ -77,7 +102,7 @@ const resource:SiteResource = {
           <time datetime="2022-01-18" class="w-28 flex-none">Mon, Jan 17</time>
           <p class="mt-2 flex-auto font-semibold text-white sm:mt-0">Sign paperwork at lawyers</p>
           <p class="flex-none sm:ml-6"><time datetime="2022-01-17T10:00">10:00 AM</time> - <time datetime="2022-01-17T10:15">10:15 AM</time></p>
-        </li>
+        </li> -->
       </ol>
     </section>
     </div>

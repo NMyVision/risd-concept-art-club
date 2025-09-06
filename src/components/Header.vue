@@ -26,7 +26,7 @@ const mobileMenuOpen = ref(false)
 <template>
 
 
-  <header class="sticky top-0 z-10">
+  <header class="sticky top-0 z-10 h-20">
     <nav class="flex items-center justify-between p-6 md:px-8 bg-zinc-900/50 backdrop-blur-md" aria-label="Global">
       <div class="flex md:flex-1">
         <RouterLink to="/" class="-m-1.5 p-1.5">

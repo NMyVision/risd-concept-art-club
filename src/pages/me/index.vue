@@ -3,8 +3,8 @@
     This example requires updating your template:
 
     ```
-    <html class="h-full bg-gray-900">
-    <body class="h-full">
+    <html class="min-h-full bg-gray-900">
+    <body class="min-h-full">
     ```
   -->
   <Layout>
@@ -134,7 +134,7 @@
               </form>
             </div>
 
- 
+
 
             <div class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
               <div>

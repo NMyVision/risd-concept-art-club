@@ -33,7 +33,7 @@ const imageUrl = computed(() => {
     </div>
 
     <!-- Content -->
-    <div class="relative h-full grid w-full grid-cols-1 grid-rows-[1fr_auto] p-6 lg:p-8 z-40" data-content>
+    <div class="relative min-h-full grid w-full grid-cols-1 grid-rows-[1fr_auto] p-6 lg:p-8 z-40" data-content>
       <!-- Main Content -->
       <div class="space-y-2 w-full">
         <h3 class="font-bold text-white leading-tight text-shadow-md/20 "

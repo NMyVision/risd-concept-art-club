@@ -18,7 +18,7 @@ const imageUrl = computed(() => {
     <!-- Image Container -->
     <div class="relative overflow-hidden rounded-2xl   aspect-[16/10] mb-4" :class="item.cover ? 'bg-white' : 'bg-gray-700'">
       <img v-if="item.cover" :src="imageUrl" :alt="item.label"
-        class="w-full h-full object-cover transition-transform duration-500 group-hover/item:scale-110" />
+        class="w-full min-h-full object-cover transition-transform duration-500 group-hover/item:scale-110" />
 
       <!-- Overlay for better text contrast if needed -->
       <div class="absolute inset-0 bg-black/10 group-hover/item:bg-black/20 transition-colors duration-300"></div>
