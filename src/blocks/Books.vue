@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref , computed } from 'vue'
 import { pb } from '@/packages/pocketbase'
 import BookCard from '@/components/BookCard.vue'
 //import type { Book } from '@/types'
@@ -32,6 +33,41 @@ const toggleBookmark = (bookId: Book['id']) => {
   console.log('Toggle bookmark for:', bookId)
   // Handle bookmark logic
 }
+const queryTerm = ref('')
+const filteredItems = computed(() => {
+  if (!items.value) return []
+  if (!queryTerm.value.trim()) return items.value
+
+  const searchTerm = queryTerm.value.toLowerCase().trim()
+
+  return items.value.filter(item => {
+    // Debug: Log the item structure to understand the data
+    console.log('Filtering item:', item)
+
+    // Check title
+    if (item.title?.toLowerCase().includes(searchTerm)) return true
+
+    // Check author
+    if (item.author?.toLowerCase().includes(searchTerm)) return true
+
+    // Check studio name (handle potential undefined expand)
+    if (item.expand?.studio?.name?.toLowerCase().includes(searchTerm)) return true
+
+    // Check publisher name (handle potential undefined expand)
+    if (item.expand?.publisher?.name?.toLowerCase().includes(searchTerm)) return true
+
+    return false
+  })
+})
+
+// Debug computed to see what's happening
+const debugInfo = computed(() => ({
+  totalItems: items.value?.length || 0,
+  filteredCount: filteredItems.value.length,
+  searchTerm: queryTerm.value,
+  hasItems: !!items.value,
+  firstItem: items.value?.[0] || null
+}))
 </script>
 
 <template>
@@ -42,7 +78,7 @@ const toggleBookmark = (bookId: Book['id']) => {
 
       <div class="flex items-center justify-between py-4">
         <!-- Navigation Tabs -->
-        <div class="flex space-x-8">
+        <!-- <div class="flex space-x-8">
           <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id" :class="[
             'pb-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200',
             activeTab === tab.id
@@ -51,7 +87,13 @@ const toggleBookmark = (bookId: Book['id']) => {
           ]">
             {{ tab.name }}
           </button>
+        </div> -->
+
+        <div>
+          <input type="search" v-model="queryTerm" class="bg-transparent w-96 border border-zinc-500 rounded "
+            placeholder="Search..." />
         </div>
+ 
 
         <!-- View Toggle -->
         <div class="flex items-center space-x-2 bg-gray-800 rounded-lg p-1">
@@ -76,18 +118,18 @@ const toggleBookmark = (bookId: Book['id']) => {
       </div>
     </div>
 
-    <section class="grid grid-cols-[1fr_auto] lg:gap-8 p-4 sm:p-0">
+    <section class="grid grid-cols-[1fr_auto] p-4 sm:p-0">
       <!-- Content -->
       <div :class="[viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2', 'grid gap-6 @container']"
-        v-if="items">
-        <template v-for="item in items" :key="item.id">
+        v-if="filteredItems">
+        <template v-for="item in filteredItems" :key="item.id">
           <BookCard :book="item" @bookmark="toggleBookmark" viewMode :bookmarked="true" />
         </template>
       </div>
 
-      <div class="w-96 bg-neutral-900/10 p-4 hidden lg:block">
+      <div class="w-96 bg-neutral-900/10 p-4 hidden lg:block" v-if="false">
 
-Filter
+        Filter
 
       </div>
 
