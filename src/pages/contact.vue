@@ -47,7 +47,7 @@ async function handleSubmit() {
       await pb.collection('submissions').create({
         name: name.value.trim(),
         email: email.value.trim(),
-        message: message.value.trim()
+        submission: message.value.trim()
       })
     }
     success.value = 'Message sent! We\'ll be in touch soon.'
