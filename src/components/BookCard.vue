@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { pb } from '@/packages/pocketbase'
-import type { Book, Publisher, Studio } from '@/packages/pocketbase'
+
 
 type Props = { book: Book & { expand: { studio: Studio, publisher: Publisher } }, bookmarked: boolean }
 const { book, bookmarked } = defineProps<Props>()

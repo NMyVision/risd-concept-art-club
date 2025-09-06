@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { pb } from '@/packages/pocketbase'
-import type { Book, Publisher, Studio } from '@/packages/pocketbase'
 import BookCard from '@/components/BookCard.vue'
 //import type { Book } from '@/types'
 

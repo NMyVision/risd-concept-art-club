@@ -14,17 +14,18 @@ export const getCollectionData = async (options: PluginOptions, env: Record<stri
   return await pb.collections.getFullList()
 }
 const getOptions = (options?: Partial<PluginOptions>) => {
-  console.log('getOptions BEFORE', options)
+  //console.log('getOptions BEFORE', options)
   if (!options) options = {} as Partial<PluginOptions>
   if (!options.path) options.path = './pocketbase-collections.d.ts'
   if (options.useBaseModel === undefined) options.useBaseModel = true;
+  if (options.devOnly === undefined) options.devOnly = true;
   if (!options.fieldFilter) options.fieldFilter =  (f: CollectionField, o: PluginOptions) => !f.hidden || ( o.useBaseModel &&(f.name === "id" || f.name === "created" || f.name === "updated")) ;
   if (!options.collectionFilter) options.collectionFilter = c => !c.name.startsWith("_");
   if (options.nameSuffix === undefined) options.nameSuffix = "Model";
   if (options.getCollectionData === undefined) options.getCollectionData = getCollectionData;
   if (!options.collectionNameResolver) options.collectionNameResolver = (c) => singularize(sentenceCase(c.name));
   if (!options.fieldNameResolver) options.fieldNameResolver = (f) => f.name
-  console.log('getOptions END', options)
+  //console.log('getOptions END', options)
   return options as PluginOptions;
 };
 
@@ -62,17 +63,20 @@ export default function (options?: Partial<PluginOptions>) {
     },
     async buildStart() {
       try {
-
         const opts = getOptions(options);
+        // Skip if devOnly and we are not in serve command
+        const isServe = viteConfig.command === 'serve';
+        if (opts.devOnly && !isServe) {
+          console.log('[vite-plugin-pocketbase] devOnly=true -> skip codegen during build');
+          return;
+        }
         const env = loadEnv(viteConfig.mode, process.cwd(), '')
         const collections:CollectionModel[] = await opts.getCollectionData(opts, env)
         const content = generateDTS(opts, collections)
-
         writeToFile(options?.path ?? `./pocketbase-collections.d.ts`, content);
       } catch (err) {
         console.error('vite-plugin-pocketbase: failed to fetch collections', err)
       }
-
     },
     // resolveId(id: unknown) {
     //   if (id === virtualModuleId) return resolvedVirtualModuleId

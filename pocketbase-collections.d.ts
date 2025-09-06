@@ -6,7 +6,7 @@ declare global {
   type Id = string
   type Uri = string
   type GeoPoint = { lat: number; lon: number };
-  
+
   // users
   interface User extends BaseModel {
     id: string;

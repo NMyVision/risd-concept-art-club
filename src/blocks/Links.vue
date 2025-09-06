@@ -3,7 +3,7 @@
 import { pb } from '@/packages/pocketbase'
 import ScrollableSection from '@/components/ScrollableSection.vue';
 import ScrollableSectionItem from '@/components/ScrollableSectionItem.vue';
-import type { Resource } from '@/types';
+
 
 type Props = { resource: Resource }
 const { resource } = defineProps<Props>()

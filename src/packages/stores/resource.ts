@@ -1,5 +1,5 @@
-import { pb, type Member } from "@/packages/pocketbase";
-import type { Resource } from "@/types";
+import { pb } from "@/packages/pocketbase";
+
 //import type { ListResult } from "pocketbase";
 import { useAsyncState } from "@vueuse/core";
 
