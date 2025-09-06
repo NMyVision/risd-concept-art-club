@@ -12,7 +12,10 @@ const imageUrl = computed(() => {
   return resource.cover;
 })
 
-
+const style =computed(() => ({
+  backgroundImage: `url('${imageUrl.value}')`,
+  ...resource.style
+})  )
 // const emits = defineEmits<{ click:[] }>()
 </script>
 
@@ -24,8 +27,10 @@ const imageUrl = computed(() => {
 
     <!-- Background Image -->
     <div
-      :class="['absolute inset-0 bg-cover bg-no-repeat transition-transform duration-700 ', hover && 'group-hover:scale-110', resource.classes === '' ? 'bg-center' : resource.classes]"
-      :style="`background-image: url('${imageUrl}')`"></div>
+    :class="['absolute inset-0 bg-cover bg-no-repeat transition-transform duration-700 ', hover && 'group-hover:scale-110', resource.classes === '' ? 'bg-center' : resource.classes]"
+    :style>
+
+  </div>
 
     <!-- Dark Overlay -->
     <div class="absolute inset-0 bg-black/40 transition-colors duration-300 pointer-events-none"

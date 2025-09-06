@@ -12,6 +12,17 @@ export const useUserStore = defineStore('user', () => {
   const token = ref<string>(pb.authStore.token || '')
   const model = ref<RecordModel | null>(pb.authStore.record)
 
+  // Loading states
+  const isUpdatingProfile = ref(false)
+  const isChangingPassword = ref(false)
+  const isDeletingAccount = ref(false)
+
+  // Messages
+  const profileMessage = ref('')
+  const passwordMessage = ref('')
+  const profileError = ref('')
+  const passwordError = ref('')
+
   const isAuthenticated = computed(() => !!token.value)
   const user = computed(() => model.value)
   const userId = computed(() => model.value?.id ?? null)
@@ -37,14 +48,154 @@ export const useUserStore = defineStore('user', () => {
     model.value = null
   }
 
+  // Clear all messages
+  function clearMessages() {
+    profileMessage.value = ''
+    passwordMessage.value = ''
+    profileError.value = ''
+    passwordError.value = ''
+  }
+
+  // Update user profile
+  async function updateProfile(profileData: {
+    firstName: string
+    lastName: string
+    avatar?: File | null
+  }) {
+    if (!user.value?.id) {
+      throw new Error('User not authenticated')
+    }
+
+    isUpdatingProfile.value = true
+    profileError.value = ''
+    profileMessage.value = ''
+
+    try {
+      const formData = new FormData()
+      formData.append('firstName', profileData.firstName)
+      formData.append('lastName', profileData.lastName)
+
+      // Only append avatar if a new one was provided
+      if (profileData.avatar) {
+        formData.append('avatar', profileData.avatar)
+      }
+
+      // Update user record
+      const updatedUser = await pb.collection('users').update(user.value.id, formData)
+
+      // Update local state
+      model.value = updatedUser
+
+      profileMessage.value = 'Profile updated successfully!'
+      return updatedUser
+
+    } catch (error: any) {
+      console.error('Profile update error:', error)
+      profileError.value = error.message || 'Failed to update profile'
+      throw error
+    } finally {
+      isUpdatingProfile.value = false
+    }
+  }
+
+  // Change password
+  async function changePassword(passwordData: {
+    currentPassword: string
+    newPassword: string
+    confirmPassword: string
+  }) {
+    if (!user.value?.id) {
+      throw new Error('User not authenticated')
+    }
+
+    // Validation
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      passwordError.value = 'New passwords do not match'
+      throw new Error('New passwords do not match')
+    }
+
+    if (passwordData.newPassword.length < 8) {
+      passwordError.value = 'New password must be at least 8 characters long'
+      throw new Error('New password must be at least 8 characters long')
+    }
+
+    isChangingPassword.value = true
+    passwordError.value = ''
+    passwordMessage.value = ''
+
+    try {
+      await pb.collection('users').update(user.value.id, {
+        oldPassword: passwordData.currentPassword,
+        password: passwordData.newPassword,
+        passwordConfirm: passwordData.confirmPassword,
+      })
+
+      passwordMessage.value = 'Password changed successfully!'
+
+    } catch (error: any) {
+      console.error('Password change error:', error)
+      passwordError.value = error.message || 'Failed to change password'
+      throw error
+    } finally {
+      isChangingPassword.value = false
+    }
+  }
+
+  // Delete account
+  async function deleteAccount() {
+    if (!user.value?.id) {
+      throw new Error('User not authenticated')
+    }
+
+    isDeletingAccount.value = true
+
+    try {
+      await pb.collection('users').delete(user.value.id)
+
+      // Clear store and logout
+      logout()
+
+    } catch (error: any) {
+      console.error('Account deletion error:', error)
+      throw error
+    } finally {
+      isDeletingAccount.value = false
+    }
+  }
+
+  // Get avatar URL
+  function getAvatarUrl(record?: RecordModel | null): string {
+    const userRecord = record || user.value
+    if (userRecord?.avatar) {
+      return pb.files.getUrl(userRecord, userRecord.avatar)
+    }
+    return 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+  }
+
   return {
     // state
     token,
     user,
     userId,
     isAuthenticated,
+    // loading states
+    isUpdatingProfile,
+    isChangingPassword,
+    isDeletingAccount,
+    // messages
+    profileMessage,
+    passwordMessage,
+    profileError,
+    passwordError,
     // actions
     login,
-    logout
+    logout,
+    clearMessages,
+    updateProfile,
+    changePassword,
+    deleteAccount,
+    getAvatarUrl,
+    // expose pb for direct access if needed
+    pb: () => pb
   }
 })
