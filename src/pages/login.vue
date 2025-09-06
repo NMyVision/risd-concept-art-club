@@ -33,7 +33,7 @@ const onSubmit = async () => {
 
   if (store.isAuthenticated || authData) {
 
-    router.push('/'); // Redirect to home after login
+    router.push('/about'); // Redirect to home after login
     return false; // Prevent default form submission
   }
 }

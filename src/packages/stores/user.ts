@@ -35,7 +35,7 @@ export const useUserStore = defineStore('user', () => {
 
   // Keep in sync with PocketBase AuthStore (handles login in other tabs, logout, refresh, etc.)
   pb.authStore.onChange((newToken: string, newModel: RecordModel | null) => {
-    console.log('AuthStore changed', { newToken, newModel })
+    //console.log('AuthStore changed', { newToken, newModel })
     token.value = newToken || ''
     model.value = newModel
   })

@@ -32,7 +32,9 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalizedLoa
   // default state for all pages is 'private'
   const access : RouteMeta["access"] = to.meta.access || "private";
 
-  if (! toValue(isAuthenticated) && access !== "public")
+  if (access === "public") return next();
+
+  if (! toValue(isAuthenticated) )
   {
     if (to.meta.access === 'anonymous') return next(); // allow access to anonymous pages
     if (to.name === '/login') return next(); //shortcircuit if already heading to login
