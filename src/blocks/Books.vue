@@ -60,14 +60,7 @@ const filteredItems = computed(() => {
   })
 })
 
-// Debug computed to see what's happening
-const debugInfo = computed(() => ({
-  totalItems: items.value?.length || 0,
-  filteredCount: filteredItems.value.length,
-  searchTerm: queryTerm.value,
-  hasItems: !!items.value,
-  firstItem: items.value?.[0] || null
-}))
+ 
 </script>
 
 <template>
@@ -93,7 +86,7 @@ const debugInfo = computed(() => ({
           <input type="search" v-model="queryTerm" class="bg-transparent w-96 border border-zinc-500 rounded "
             placeholder="Search..." />
         </div>
- 
+
 
         <!-- View Toggle -->
         <div class="flex items-center space-x-2 bg-gray-800 rounded-lg p-1">

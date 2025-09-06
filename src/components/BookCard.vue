@@ -12,6 +12,7 @@ const cover = book.cover ? pb.files.getURL(book, book.cover) : ''
 const field = book.field && Array.isArray(book.field) && book.field.join(',')
 const studio = book.expand.studio?.name
 const publisher = book.expand.publisher?.name
+const author = book.author
 </script>
 
 <template>
@@ -51,7 +52,13 @@ const publisher = book.expand.publisher?.name
 
 
     <div class="flex items-baseline justify-between gap-x-4">
-      <p class="text-sm/6 font-semibold text-white">{{ book.title }}</p>
+      <p class="text-sm/6  text-white">
+        <span class="font-semibold">
+          {{ book.title }}
+        </span>
+      <br>
+    <span class="opacity-70">  {{ book.author }}</span>
+    </p>
     </div>
 
     <div class="flex flex-col gap-4 @md:flex-row justify-between">
