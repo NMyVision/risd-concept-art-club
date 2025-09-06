@@ -58,7 +58,7 @@ const currentImage = computed(() => {
     <body class="min-h-full">
     ```
   -->
-  <div class="flex min-min-h-full flex-1">
+  <div class="flex h-screen isolate flex-1 fixed w-full">
     <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
@@ -117,7 +117,7 @@ const currentImage = computed(() => {
                 </div>
 
                 <div class="text-sm/6">
-                  <a href="#" class="font-semibold text-blue-400 hover:text-blue-300">Forgot password?</a>
+                  <RouterLink to="/forgot-password" class="font-semibold text-blue-400 hover:text-blue-300">Forgot password?</RouterLink>
                 </div>
               </div>
 

@@ -12,6 +12,12 @@ export const useUserStore = defineStore('user', () => {
   const token = ref<string>(pb.authStore.token || '')
   const model = ref<RecordModel | null>(pb.authStore.record)
 
+ // Forgot password states
+  const isRequestingReset = ref(false)
+  const isResettingPassword = ref(false)
+  const resetMessage = ref('')
+  const resetError = ref('')
+
   // Loading states
   const isUpdatingProfile = ref(false)
   const isChangingPassword = ref(false)
@@ -172,12 +178,69 @@ export const useUserStore = defineStore('user', () => {
     return 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
   }
 
+  // Request password reset
+  async function requestPasswordReset(email: string) {
+    isRequestingReset.value = true
+    resetError.value = ''
+    resetMessage.value = ''
+
+    try {
+      await pb.collection('users').requestPasswordReset(email)
+      resetMessage.value = 'If an account with that email exists, we\'ve sent a password reset link.'
+    } catch (error: any) {
+      console.error('Password reset request error:', error)
+      // For security, we don't reveal if email exists or not
+      resetMessage.value = 'If an account with that email exists, we\'ve sent a password reset link.'
+    } finally {
+      isRequestingReset.value = false
+    }
+  }
+
+  // Reset password with token
+  async function resetPassword(token: string, password: string, passwordConfirm: string) {
+    if (password !== passwordConfirm) {
+      resetError.value = 'Passwords do not match'
+      throw new Error('Passwords do not match')
+    }
+
+    if (password.length < 8) {
+      resetError.value = 'Password must be at least 8 characters long'
+      throw new Error('Password must be at least 8 characters long')
+    }
+
+    isResettingPassword.value = true
+    resetError.value = ''
+    resetMessage.value = ''
+
+    try {
+      await pb.collection('users').confirmPasswordReset(token, password, passwordConfirm)
+      resetMessage.value = 'Password reset successfully! You can now login with your new password.'
+    } catch (error: any) {
+      console.error('Password reset error:', error)
+      resetError.value = error.message || 'Failed to reset password. The reset link may be expired.'
+      throw error
+    } finally {
+      isResettingPassword.value = false
+    }
+  }
+
+  // Clear reset messages
+  function clearResetMessages() {
+    resetMessage.value = ''
+    resetError.value = ''
+  }
+
   return {
     // state
     token,
     user,
     userId,
     isAuthenticated,
+     // forgot password states
+    isRequestingReset,
+    isResettingPassword,
+    resetMessage,
+    resetError,
     // loading states
     isUpdatingProfile,
     isChangingPassword,
@@ -195,6 +258,10 @@ export const useUserStore = defineStore('user', () => {
     changePassword,
     deleteAccount,
     getAvatarUrl,
+      // forgot password actions
+    requestPasswordReset,
+    resetPassword,
+    clearResetMessages,
     // expose pb for direct access if needed
     pb: () => pb
   }
