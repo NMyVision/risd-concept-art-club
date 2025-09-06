@@ -106,7 +106,7 @@ const getURLImage = <T>(item: T, fn: (T: any) => string) => {
             meet?</h2>
         </div>
 
-        <div class="mx-auto max-w-2xl px-6 lg:px-8 lg:max-w-4xl lg:gap-x-8 xl:max-w-none pt-20 text-blue-200">
+        <div class="mx-auto max-w-2xl px-6 lg:px-8 lg:max-w-4xl lg:gap-x-8 xl:max-w-none pt-20 text-blue-200 text-center text-lg/8">
          Coming Soon
         </div>
       </div>
