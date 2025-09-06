@@ -107,8 +107,7 @@ const getURLImage = <T>(item: T, fn: (T: any) => string) => {
         </div>
 
         <div class="mx-auto max-w-2xl px-6 lg:px-8 lg:max-w-4xl lg:gap-x-8 xl:max-w-none pt-20 text-blue-200">
-          Concept Art Club meets every other Friday from 4-5pm in the Media Center (Room 112) in the Fleet Library.
-          All are welcome to attend, no matter your major or skill level! We hope to see you there.
+         Coming Soon
         </div>
       </div>
     </div>
